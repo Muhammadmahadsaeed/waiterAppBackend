@@ -2,11 +2,9 @@ const express = require('express');
 const router = express.Router();
 var db = require('../config/db.js');
 
-router.get('/getAll', (req, res) => {
-    res.send({users: [], message: "Post fetched successfully"})
-})
-router.get('/', function(req, res, next) {
-    var sql = "SELECT * FROM products WHERE active=1";
+
+router.get('/getAllResturants', function(req, res, next) {
+    var sql = "SELECT * FROM resturants";
     db.query(sql, function(err, rows, fields) {
       if (err) {
         res.status(500).send({ error: 'Something failed!' })
@@ -28,17 +26,16 @@ router.get('/', function(req, res, next) {
 //   });
   
   /*post method for create product*/
-  router.post('/create', function(req, res, next) {
+  router.post('/addResturants', function(req, res) {
     var name = req.body.name;
     var pwd = req.body.pwd;
-    
-  
+    console.log(req.body)
     var sql = `INSERT INTO login (user_name, pwd) VALUES ("${name}", "${pwd}")`;
     db.query(sql, function(err, result) {
       if(err) {
         res.status(500).send({ error: 'Something failed!' })
       }
-      res.json({'status': 'success', id: result.insertId})
+      res.json({'status': 'success',result})
     })
   });
   
